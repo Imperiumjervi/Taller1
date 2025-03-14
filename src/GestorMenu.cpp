@@ -2,11 +2,12 @@
 // main no este lleno
 
 #include "../include/GestorMenu.hpp"
+#include <iostream>
+#include <string>
 
-GestorMenu::GestorMenu() {}
+using namespace std;
 
-GestorMenu::GestorMenu(int numClientes, int numReservas)
-    : numClientes(numClientes), numReservas(numReservas) {}
+GestorMenu::GestorMenu() { numClientes = 0; numReservas = 0; }
 
 void GestorMenu::mostrarMenu() {
   cout << "\n";
@@ -119,54 +120,76 @@ void GestorMenu::listarClientes() {
   }
 }
 
-void GestorMenu::crearReserva() {
-  if (numClientes == 0) {
+void GestorMenu::hacerReserva(){
+  if(numClientes == 0){
     cout << "No hay clientes registrados\n";
     return;
   }
+  
+  cout << "ingrese el número de reservas que desea hacer: ";
+  cin >> numReservas;
+  cin.ignore();
 
-  string idBuscar;
-  cout << "Ingrese el ID del cliente a hacer la reserva: ";
-  getline(cin, idBuscar);
+  if(numReservas >= maxReservas){
+    cout << "El número de reservas excede el límite\n";
+    return;
+  }
 
-  bool encontrado = false;
+  cout << "Ingrese el nombre del cliente que hara la reserva: \n";
+  for(int i = 0; i < numClientes; i++){
+    cout << i + 1 << ". " << clientes[i].getNombre() << "ID: "<< clientes[i].getId() << endl;
+  }
 
-  for (int i = 0; i < numClientes; i++) {
-    if (clientes[i].getId() == idBuscar) {
-      encontrado = true;
+  int indiceCliente;
+  cout << "Ingrese el número del cliente: ";
+  cin >> indiceCliente;
+  cin.ignore();
 
-      cout << "Cliente encontrado. Ingrese los datos de la reserva:\n";
+  if(indiceCliente < 1 || indiceCliente > numClientes){
+    cout << "Error: Cliente inválido\n";
+    return;
+  }
 
-      int dias;
-      string fecha;
-      int tipoPaquete;
+  int dias;
+  cout << "Ingrese el número de días de la reserva: ";
+  cin >> dias;
+  cin.ignore();
 
-      cout << "Ingrese la cantidad de días: ";
-      cin >> dias;
-      cin.ignore();
-      cout << "Ingrese la fecha de la reserva: ";
-      getline(cin, fecha);
+  int tipoPaquete;
+  cout << "Los paquetes disponibles son: \n";
+  cout << "1. Paquete Normal  Precio: 50\n";
+  cout << "2. Paquete VIP  Precio 75\n";
+  cout << "3. Paquete SuperVip()  100\n";
+cout << "Ingrese el número del paquete: ";
+  cin >> tipoPaquete;
+  cin.ignore();
 
-      do {
-        cout << "ingrese el paquete que desea: \n";
-        cout << "0 - Paquete normal \n";
-        cout << "1 - Paquete Large \n";
-        cout << "2 - Paquete Royal \n";
-        cin >> tipoPaquete;
-        cin.ignore();
+  if(tipoPaquete < 0 || tipoPaquete > 2){
+    cout << "Error: Paquete inválido\n";
+    return;
+  }
 
-        if (tipoPaquete < 0 || tipoPaquete > 2) {
-          cout << "Error: Paquete inválido, intente de nuevo\n";
-        }
+  Reservas::paquetes paqueteSeleccionado = static_cast<Reservas::paquetes>(tipoPaquete);
+  reservas[numReservas] = Reservas(clientes[indiceCliente - 1], dias, paqueteSeleccionado);
+  reservas[numReservas].calcularCosto();
 
-      } while (tipoPaquete < 0 || tipoPaquete > 2);
 
-      reservas[numReservas] =
-          Reservas(dias, fecha, static_cast<Reservas::paquetes>(tipoPaquete));
-      numReservas++;
+  cout << "Reserva almacenada: Cliente ID " << clientes[indiceCliente - 1].getId()
+          << ", Dias: " << dias 
+          << ", Costo Total: " << reservas[numReservas].getCostoTotal() << "\n";
 
-      cout << "Reserva creada\n";
-      break;
-    }
+  cout << "Reserva realizada\n";
+}
+
+void GestorMenu::listarReservas(){
+  if(numReservas == 0){
+    cout << "No hay reservas realizadas\n";
+    return;
+  }
+
+  for(int i = 0; i < numReservas; i++){
+    cout << "Reserva " << i + 1 << ":\n";
+    reservas[i].mostrarReserva();
+    cout << "--------------------------\n";
   }
 }

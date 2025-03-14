@@ -2,8 +2,8 @@
 // main no este lleno
 
 #pragma once
-#include "Cliente.hpp"
 #include "Reservas.hpp"
+#include "Cliente.hpp"
 #include <iostream>
 #include <string>
 
@@ -11,18 +11,20 @@ const int maxClientes = 100;
 const int maxReservas = 100;
 
 class GestorMenu {
+  public:
+    GestorMenu();
+
 private:
   Cliente clientes[maxClientes];
   Reservas reservas[maxReservas];
   int numClientes;
   int numReservas;
 
-public:
-  GestorMenu();
-  GestorMenu(int numClientes, int numReservas);
+public: 
   void mostrarMenu();
   void registrarClientes();
   void actualizarCliente();
   void listarClientes();
-  void crearReserva();
+  void hacerReserva();
+  void listarReservas();
 };

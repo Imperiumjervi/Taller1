@@ -5,35 +5,27 @@
 
 using namespace std;
 
-class Reservas {
+class Reservas {  
 public:
   Reservas();
   enum class paquetes { Paquete1, Paquete2, Paquete3 };
 
-  //usar 
-
-  Reservas &operator=(const Reservas &otra);
-
 private:
   int dias;
-  string fecha;
-  const double precioNormal = 50.0;
-  const double precioLarge = 75.0;
-  const double precioRoyal = 100.0;
+  double precioNormal = 50.0;
+  double precioVip = 75.0;
+  double precioSuperVip = 100.0;
   int costoTotal;
-  paquetes tipoPaquete;
-
-  // enum tipoMembresia && enum paquetes = precioTotal del paquete con
-  // o sin descuentos
-
-  // P && Q = true para que esto aplique el descuento
+  Cliente cliente;
+  paquetes tipoPaquetes;
 
 public:
-  Reservas(int dias, string fecha, paquetes tipoPaquete);
-  double getPrecio(paquetes tipoPaquete);
-  void setDias(int nuevoDias);
-  int getDias();
-  void setFecha(string nuevaFecha);
-  string getFecha() const;
-  void mostarReserva();
+  Reservas(Cliente &cliente, int dias, paquetes tipoPaquetes);
+  double getPrecio(paquetes paqueteTipo);
+  void calcularCosto();
+  double getCostoTotal() const;
+  void mostrarReserva() const;
+  void setCliente( Cliente &cliente);
+  void setDias(int dias);
+  void setTipoPaquete(paquetes tipoPaquetes);
 };

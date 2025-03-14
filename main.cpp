@@ -1,5 +1,6 @@
 #include "include/Cliente.hpp"
 #include "include/GestorMenu.hpp"
+#include "include/Reservas.hpp"
 #include <array>
 #include <iostream>
 #include <string>
@@ -9,8 +10,8 @@ using namespace std;
 int main() {
   GestorMenu menu;
   int opcion;
-  do {
-
+  
+  do{
     menu.mostrarMenu();
     cout << "Seleccione una opcion: ";
     cin >> opcion;
@@ -20,7 +21,6 @@ int main() {
     case 1:
       menu.registrarClientes();
       break;
-
     case 2:
       menu.actualizarCliente();
       break;
@@ -28,9 +28,11 @@ int main() {
       menu.listarClientes();
       break;
     case 4:
-      menu.crearReserva();
+      menu.hacerReserva();
       break;
-
+    case 6:
+      menu.listarReservas();
+      break;
     case 7:
       cout << "Saliendo del programa\n";
       break;
@@ -38,7 +40,5 @@ int main() {
       cout << "Opcion no valida\n";
       break;
     }
-  } while (opcion != 7);
-
-  return 0;
-}
+  }while(opcion != 7);
+  return 0;}

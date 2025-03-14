@@ -4,44 +4,40 @@
 
 using namespace std;
 
-Reservas::Reservas()
-    : dias(0), fecha(""), costoTotal(0), tipoPaquete(paquetes::Paquete1) {}
+Reservas::Reservas() : cliente(Cliente()) {}
 
-Reservas::Reservas(int dias, string fecha, paquetes tipoPaquete)
-    : dias(dias), fecha(fecha), tipoPaquete(tipoPaquete) {
-  costoTotal = getPrecio(tipoPaquete) * dias;
-}
+Reservas::Reservas( Cliente& cliente, int dias, paquetes tipoPaquetes)
+    : cliente(cliente), dias(dias), tipoPaquetes(tipoPaquetes), costoTotal() {
+      calcularCosto();
+    }
 
-Reservas &Reservas::operator=(const Reservas &otra) {
-  if (this != &otra) { // Evitar auto-asignación
-    dias = otra.dias;
-    fecha = otra.fecha;
-    tipoPaquete = otra.tipoPaquete;
-    costoTotal = otra.costoTotal;
-  }
-  return *this;
-}
-
-double Reservas::getPrecio(paquetes tipoPaquete) {
-  switch (tipoPaquete) {
+double Reservas::getPrecio(paquetes tipoPaquetes) {
+  switch (tipoPaquetes) {
   case paquetes::Paquete1:
     return precioNormal;
   case paquetes::Paquete2:
-    return precioLarge;
+    return precioVip;
   case paquetes::Paquete3:
-    return precioRoyal;
+    return precioSuperVip;
   default:
     return 0.0;
   }
 }
 
-void Reservas::setDias(int nuevoDias) { dias = nuevoDias; }
-int Reservas::getDias() { return dias; }
-void Reservas::setFecha(string nuevaFecha) { fecha = nuevaFecha; }
-string Reservas::getFecha() const { return fecha; }
-
-void Reservas::mostarReserva() {
-  cout << "Dias de reserva: " << getDias() << endl;
-  cout << "Fecha de reserva: " << getFecha() << endl;
-  cout << "precio del paquete: " << getPrecio(tipoPaquete) << endl;
+void Reservas::calcularCosto() {
+  double descuento = cliente.getDescuento();
+  double precioBase = getPrecio(tipoPaquetes);
+  costoTotal = precioBase * dias * (1 - descuento);
 }
+
+double Reservas::getCostoTotal() const { return costoTotal; }
+
+void Reservas::mostrarReserva() const{
+  cout << "Cliente: " << cliente.getNombre() << endl;
+  cout << "Dias: " << dias << endl;
+  cout << "Costo total: " << costoTotal << endl;
+}
+
+void Reservas::setCliente( Cliente& cliente) { this->cliente = cliente; }
+void Reservas::setDias(int dias) { this->dias = dias; }
+void Reservas::setTipoPaquete(paquetes tipoPaquetes) { this->tipoPaquetes = tipoPaquetes; }
