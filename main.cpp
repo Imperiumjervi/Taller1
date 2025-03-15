@@ -30,6 +30,9 @@ int main() {
     case 4:
       menu.hacerReservas();
       break;
+    case 5:
+      menu.actualizarReserva();
+      break;
     case 6:
       menu.listarReservas();
       break;

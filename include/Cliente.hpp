@@ -7,6 +7,8 @@ using namespace std;
 
 class Cliente {
 public:
+  //Se crea un constructor vacio para poder inicializar un objeto de tipo Cliente
+  //Y se hace un enum para poder asignarle un tipo de membresia al cliente
   Cliente();
   enum class tipoMembresia { Normal, Vip, superVip };
 

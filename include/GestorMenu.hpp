@@ -26,6 +26,7 @@ public:
   void actualizarCliente();
   void listarClientes();
   void hacerReserva();
+  //Funcion recursiva para hacer la cantidad de reservas que el usuario desee
   void hacerReservas();
   void listarReservas();
   void actualizarReserva();

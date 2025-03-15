@@ -26,7 +26,7 @@ void GestorMenu::registrarClientes() {
   cout << "Ingrese la cantidad de clientes que desea registrar: ";
   int cantidad;
   cin >> cantidad;
-  cin.ignore();
+  cin.ignore(); //no se guarda el salto de linea
 
   if (numClientes + cantidad > maxClientes) {
     cout << "El número de clientes excede el límite\n";
@@ -49,6 +49,8 @@ void GestorMenu::registrarClientes() {
     // Aqui tuve que usar un casteo para poder asignar un valor entero a la
     // membresia Y mostrarla en el metodo de mostrar info para que no tuviera
     // ningn problema
+    // Esto se estara usando cada que se quiera mostrar la informacion de una
+    // membresia
 
     Cliente::tipoMembresia membresia =
         static_cast<Cliente::tipoMembresia>(tipo);
@@ -61,8 +63,7 @@ void GestorMenu::registrarClientes() {
 void GestorMenu::actualizarCliente() {
   if (numClientes == 0) {
     cout << "No hay clientes registrados\n";
-    return;
-  }
+    return;  }
 
   string idBuscar;
   cout << "Ingrese el ID del cliente a actualizar: ";
@@ -125,7 +126,7 @@ void GestorMenu::hacerReservas(){
     return;
   }
   int cantidad;
-  std::cout << "cuantas reservas deseas hacer" << std::endl;
+  cout << "cuantas reservas deseas hacer: " ;
   cin >> cantidad;
   cin.ignore();
 
@@ -133,6 +134,8 @@ void GestorMenu::hacerReservas(){
     cout << "El número de reservas excede el límite\n";
     return;
   }
+
+  //Uso de una funcion recursiva para hacer la cantidad de reservas que el usuario desee
   while (cantidad > 0){
     hacerReserva();
     cantidad--;
@@ -163,9 +166,9 @@ void GestorMenu::hacerReserva(){
   int tipoPaquete;
   cout << "Los paquetes disponibles son: \n";
   cout << "1. Paquete Normal  Precio: 50\n";
-  cout << "2. Paquete VIP  Precio 75\n";
-  cout << "3. Paquete SuperVip()  100\n";
-cout << "Ingrese el número del paquete: ";
+  cout << "2. Paquete VIP  Precio: 75\n";
+  cout << "3. Paquete SuperVip Precio: 100\n";
+  cout << "Ingrese el número del paquete: ";
   cin >> tipoPaquete;
   cin.ignore();
 
@@ -175,9 +178,7 @@ cout << "Ingrese el número del paquete: ";
   }
 
   Reservas::paquetes paqueteSeleccionado = static_cast<Reservas::paquetes>(tipoPaquete);
-  std::cout << "clientes" << clientes[indiceCliente - 1].getNombre() << std::endl;
-  std::cout << "dias: " << dias << std::endl;
-  std::cout << "paquete: " << (int) paqueteSeleccionado << std::endl;
+
   reservas[numReservas] = Reservas(clientes[indiceCliente - 1], dias, paqueteSeleccionado);
   reservas[numReservas].calcularCosto();
 
@@ -196,8 +197,7 @@ void GestorMenu::listarReservas(){
   }
 
   for(int i = 0; i < this->numReservas; i++){
-    std::cout << this->numReservas << std::endl;
-    cout << "Reserva " << i + 1 << ":\n";
+    cout << "Reserva " << (i + 1) << ":";
     reservas[i].mostrarReserva();
     cout << "--------------------------\n";
   }
@@ -206,13 +206,26 @@ void GestorMenu::listarReservas(){
 void GestorMenu::actualizarReserva(){
   this->listarReservas();
   int indiceReserva;
-  std::cout << "ingrese el numero de la reserva que deseas actualizar:";
+  cout << "ingrese el numero de la reserva que deseas actualizar:";
   cin >> indiceReserva;
   cin.ignore();
   indiceReserva--;
   if(indiceReserva < 0 || indiceReserva > this->numReservas){
-    std::cout << "reserva a actualizar ingresada esta mal";
+    cout << "reserva a actualizar ingresada esta mal";
     return;
   }
-  // ya tienes el indice entonces haz operaciones para setear
+
+  int nuevosDias;
+  int nuevoPaquete;
+  cout << "Ingrese la nueva cantidad de días: ";
+  cin >> nuevosDias;
+  cout << "Ingrese el nuevo paquete: ";
+  cin >> nuevoPaquete;
+
+  Reservas::paquetes paqueteSeleccionado = static_cast<Reservas::paquetes>(nuevoPaquete);
+  reservas[indiceReserva].setDias(nuevosDias);
+  reservas[indiceReserva].setTipoPaquete(paqueteSeleccionado);
+  reservas[indiceReserva].calcularCosto();
+
+  cout << "Reserva actualizada\n";
 }
