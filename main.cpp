@@ -28,7 +28,7 @@ int main() {
       menu.listarClientes();
       break;
     case 4:
-      menu.hacerReserva();
+      menu.hacerReservas();
       break;
     case 6:
       menu.listarReservas();

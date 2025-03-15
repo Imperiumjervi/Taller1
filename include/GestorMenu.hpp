@@ -26,5 +26,7 @@ public:
   void actualizarCliente();
   void listarClientes();
   void hacerReserva();
+  void hacerReservas();
   void listarReservas();
+  void actualizarReserva();
 };

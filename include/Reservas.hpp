@@ -8,7 +8,7 @@ using namespace std;
 class Reservas {  
 public:
   Reservas();
-  enum class paquetes { Paquete1, Paquete2, Paquete3 };
+  enum class paquetes { Paquete1=1, Paquete2, Paquete3 };
 
 private:
   int dias;
@@ -20,11 +20,11 @@ private:
   paquetes tipoPaquetes;
 
 public:
-  Reservas(Cliente &cliente, int dias, paquetes tipoPaquetes);
+  Reservas(Cliente& cliente, int dias, paquetes tipoPaquetes);
   double getPrecio(paquetes paqueteTipo);
   void calcularCosto();
   double getCostoTotal() const;
-  void mostrarReserva() const;
+  void mostrarReserva();
   void setCliente( Cliente &cliente);
   void setDias(int dias);
   void setTipoPaquete(paquetes tipoPaquetes);

@@ -119,22 +119,27 @@ void GestorMenu::listarClientes() {
     cout << "--------------------------\n";
   }
 }
-
-void GestorMenu::hacerReserva(){
+void GestorMenu::hacerReservas(){
   if(numClientes == 0){
     cout << "No hay clientes registrados\n";
     return;
   }
-  
-  cout << "ingrese el número de reservas que desea hacer: ";
-  cin >> numReservas;
+  int cantidad;
+  std::cout << "cuantas reservas deseas hacer" << std::endl;
+  cin >> cantidad;
   cin.ignore();
 
-  if(numReservas >= maxReservas){
+  if(numReservas + cantidad > maxReservas){
     cout << "El número de reservas excede el límite\n";
     return;
   }
+  while (cantidad > 0){
+    hacerReserva();
+    cantidad--;
+  }
+}
 
+void GestorMenu::hacerReserva(){
   cout << "Ingrese el nombre del cliente que hara la reserva: \n";
   for(int i = 0; i < numClientes; i++){
     cout << i + 1 << ". " << clientes[i].getNombre() << "ID: "<< clientes[i].getId() << endl;
@@ -164,21 +169,24 @@ cout << "Ingrese el número del paquete: ";
   cin >> tipoPaquete;
   cin.ignore();
 
-  if(tipoPaquete < 0 || tipoPaquete > 2){
+  if(tipoPaquete < 0 || tipoPaquete > 3){
     cout << "Error: Paquete inválido\n";
     return;
   }
 
   Reservas::paquetes paqueteSeleccionado = static_cast<Reservas::paquetes>(tipoPaquete);
+  std::cout << "clientes" << clientes[indiceCliente - 1].getNombre() << std::endl;
+  std::cout << "dias: " << dias << std::endl;
+  std::cout << "paquete: " << (int) paqueteSeleccionado << std::endl;
   reservas[numReservas] = Reservas(clientes[indiceCliente - 1], dias, paqueteSeleccionado);
   reservas[numReservas].calcularCosto();
-
 
   cout << "Reserva almacenada: Cliente ID " << clientes[indiceCliente - 1].getId()
           << ", Dias: " << dias 
           << ", Costo Total: " << reservas[numReservas].getCostoTotal() << "\n";
 
   cout << "Reserva realizada\n";
+  numReservas++;
 }
 
 void GestorMenu::listarReservas(){
@@ -187,9 +195,24 @@ void GestorMenu::listarReservas(){
     return;
   }
 
-  for(int i = 0; i < numReservas; i++){
+  for(int i = 0; i < this->numReservas; i++){
+    std::cout << this->numReservas << std::endl;
     cout << "Reserva " << i + 1 << ":\n";
     reservas[i].mostrarReserva();
     cout << "--------------------------\n";
   }
+}
+
+void GestorMenu::actualizarReserva(){
+  this->listarReservas();
+  int indiceReserva;
+  std::cout << "ingrese el numero de la reserva que deseas actualizar:";
+  cin >> indiceReserva;
+  cin.ignore();
+  indiceReserva--;
+  if(indiceReserva < 0 || indiceReserva > this->numReservas){
+    std::cout << "reserva a actualizar ingresada esta mal";
+    return;
+  }
+  // ya tienes el indice entonces haz operaciones para setear
 }
