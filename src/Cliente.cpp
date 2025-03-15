@@ -19,11 +19,11 @@ Cliente::tipoMembresia Cliente::getMembresia() const { return membresia; }
 double Cliente::getDescuento() const {
   switch (membresia) {
   case tipoMembresia::Vip:
-    return 0.10; // 10% de descuento
+    return 0.90; // 10% de descuento
   case tipoMembresia::superVip:
-    return 0.30; // 30% de descuento
+    return 0.70; // 30% de descuento
   default:
-    return 0.0;
+    return 1.0;
   }
 }
 

@@ -4,10 +4,14 @@
 
 using namespace std;
 
-Reservas::Reservas() : cliente(Cliente()) {}
+Reservas::Reservas() : cliente(Cliente()) {
+  dias = 0;
+  tipoPaquetes = paquetes::Paquete1;
+  costoTotal = 0;
+}
 
 Reservas::Reservas( Cliente& cliente, int dias, paquetes tipoPaquetes)
-    : cliente(cliente), dias(dias), tipoPaquetes(tipoPaquetes), costoTotal() {
+    : cliente(cliente), dias(dias), tipoPaquetes(tipoPaquetes), costoTotal(0) {
       calcularCosto();
     }
 
@@ -27,12 +31,12 @@ double Reservas::getPrecio(paquetes tipoPaquetes) {
 void Reservas::calcularCosto() {
   double descuento = cliente.getDescuento();
   double precioBase = getPrecio(tipoPaquetes);
-  costoTotal = precioBase * dias * (1 - descuento);
+  costoTotal = precioBase * dias * descuento;
 }
 
 double Reservas::getCostoTotal() const { return costoTotal; }
 
-void Reservas::mostrarReserva() const{
+void Reservas::mostrarReserva() {
   cout << "Cliente: " << cliente.getNombre() << endl;
   cout << "Dias: " << dias << endl;
   cout << "Costo total: " << costoTotal << endl;
